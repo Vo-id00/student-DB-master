@@ -3,8 +3,16 @@ import React from "react";
 import { useState } from "react";
 import InputField from "@/app/components/InputField";
 import { supabase } from "@/app/lib/superbase";
+import useStore from '@/app/stores/studentStore'
+import {router} from 'next/navigation'
+import useStore from "@/app/stores/studentStore";
+import { useRouter } from "next/navigation";
 
-export default function CreatStudent() {
+export default function CreateStudent() {
+
+    const router = useRouter
+    const {setActiveStudent} = useStore()
+
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
     const [email, setEmail] = useState("");
@@ -81,6 +89,8 @@ export default function CreatStudent() {
                             throw error;
                         }
                         alert(`Student Profile Created \n ${JSON.stringify(data)}`);
+                        setActiveStudent(data)
+                        router.push('/student/profile')
                     } catch (e) {
                         alert(`Error:${JSON.stringify(e)}`)
                     }
